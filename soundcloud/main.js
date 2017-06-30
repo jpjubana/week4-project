@@ -1,43 +1,37 @@
-/*
-  Here is a guide for the steps you could take:
-*/
-SC.initialize({
-    client_id: '8538a1744a7fdaa59981232897501e04',
-});
+const searchtext = document.querySelector("#searchtext");
+const search = document.querySelector("#search");
+const results = document.querySelector("#results");
+const player = document.querySelector("#player");
 
-// 1. First select and store the elements you'll be working with
+search.addEventListener('click', function(e) {
+    e.preventDefault();
+    SC.get('/tracks', { q: searchtext.value, limit: 13 })
+        .then(function(json) {
+            for (let i in json) {
+                let container = document.createElement('div');
+                container.setAttribute('class', 'song');
+                container.addEventListener('click', function(e) {
+                    SC.oEmbed(json[i].uri, {
+                        element: document.getElementById('player'),
+                        auto_play: true
+                    });
+                })
+                results.appendChild(container);
 
-const musicPlayer = document.querySelector('.player');
-const search = document.querySelector('.search');
-const searchBar = document.querySelector('.search-form');
-const results = document.querySelector('.results');
+                let art = document.createElement('img');
+                art.setAttribute('class', 'albumArt');
+                art.setAttribute('src', json[i].artwork_url);
+                container.appendChild(art);
 
-// Widget
+                let title = document.createElement('p');
+                title.setAttribute('class', 'songtitle');
+                title.textContent = json[i].title;
+                container.appendChild(title);
 
-var track_url = 'http://soundcloud.com/forss/flickermood';
-SC.oEmbed(track_url, { auto_play: true }).then(function(oEmbed) {
-    console.log('oEmbed response: ', oEmbed);
-});
-
-SC.stream('/tracks/293').then(function(player) {
-    player.play();
-});
-
-// 2. Create your `onSubmit` event for getting the user's search term
-
-
-
-// 3. Create your `fetch` request that is called after a submission
-
-
-
-// 4. Create a way to append the fetch results to your page
-
-SC.get('/tracks', {
-    q: 'buskers',
-    license: 'cc-by-sa'
-}).then(function(tracks) {
-    console.log(tracks);
-});
-
-// 5. Create a way to listen for a click that will play the song in the audio play
+                let artist = document.createElement('p');
+                artist.setAttribute('class', 'artist');
+                artist.textContent = json[i].user.username;
+                container.appendChild(artist);
+            }
+        });
+})

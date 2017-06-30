@@ -3,26 +3,37 @@
 
 <head>
     <title>Get Schwifty</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <div class="container">
         <header>
-            <h1>Get Schwifty</h1>
+            <p>Get Schwifty
+                <p>
         </header>
-        <section class="player">
-            <audio class="music-player" controls="controls" src=""></audio>
-        </section>
-        <section class="search">
+        <div class="search">
             <form class="search-form">
-
+                <input type="text" id="searchtext" placeholder="  what's your jam?"><button type="submit" id="search">search</button>
             </form>
-        </section>
-        <section class="results"></section>
+        </div>
+        <div id="player">
+
+        </div>
+        <div>
+            <p id="presults">search results:</p>
+        </div>
+        <div id="results">
+
+        </div>
     </div>
     <script src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js"></script>
-    <script src="scwidget.js"></script>
+    <script>
+        SC.initialize({
+            client_id: '095fe1dcd09eb3d0e1d3d89c76f5618f'
+        });
+    </script>
     <script src="main.js"></script>
 </body>
 
